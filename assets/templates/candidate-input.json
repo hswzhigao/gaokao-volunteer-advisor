@@ -1,0 +1,16 @@
+{
+  "province": "河南",
+  "year": 2026,
+  "track": "物理类/理科",
+  "score": 610,
+  "rank": 18000,
+  "preferences": {
+    "school_tags": ["985", "211", "公办"],
+    "cities": ["上海", "南京", "杭州"],
+    "provinces": [],
+    "majors": ["计算机", "电子信息"],
+    "accept_sino_foreign": false,
+    "accept_high_tuition": false,
+    "accept_transfer": true
+  }
+}

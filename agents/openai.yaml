@@ -1,0 +1,7 @@
+interface:
+  display_name: "高考志愿指导助手"
+  short_description: "高考志愿冲稳保与专业就业网页报告"
+  default_prompt: "Use $gaokao-volunteer-advisor to create a cited Gaokao volunteer report from province, score, rank, subject track, and school/major/city preferences."
+
+policy:
+  allow_implicit_invocation: true

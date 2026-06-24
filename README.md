@@ -4,6 +4,8 @@
 
 一个面向 AI Agent（Codex / Claude Code / DimCode）的 Skill，帮助高考考生和家长以**位次优先 + 就业导向**的方式完成志愿填报分析，生成可交互的 HTML 志愿报告。
 
+🌐 **在线样例：** [https://b23a8f15.pinme.dev/](https://b23a8f15.pinme.dev/)
+
 ---
 
 ## ✨ 核心能力

@@ -64,9 +64,10 @@ For every candidate, explicitly decide which strategy fits:
 
 ## Mandatory ranking and salary fields
 
-- 每所学校必须展示近年录取位次/录取排名，不能只有分数范围；若只有分数没有排名，标记 `需补充录取排名/位次`，不得用分数替代位次判断。
-- 每所学校至少展示：年份、最低分、最低位次/录取排名、招生计划数、数据来源、数据状态。
-- 每个推荐专业必须尽量展示：专业录取分、专业录取位次/录取排名、应届生平均薪资、五年后薪资水平、薪资来源和样本口径。
+- 每所学校必须展示近年录取最低分和最低位次/录取排名，不能只有分数范围；若只有分数没有排名，标记 `需补充录取排名/位次`，不得用分数替代位次判断。
+- 每所学校至少展示：年份、最低分、最低位次/录取排名、招生计划数、**王牌专业**（校内学科评估高、就业强势、行业认可度高的专业，用 ⭐ 标注）、数据来源、数据状态。
+- 每个推荐专业必须尽量展示：**该专业往年最低分、专业录取位次/录取排名**（不能只用学校投档线代替专业录取分）、应届生平均月薪、五年后薪资水平、薪资来源和样本口径。
+- 每张学校卡片内的专业列表用表格展示，列包含：专业名、是否王牌（⭐）、红黄绿灯、最低分、录取位次、应届生月薪、五年后薪资水平、普通家庭建议。
 - 如果只有分数范围、没有录取位次/录取排名、没有应届生平均薪资或五年后薪资水平，不要包装成完整方案；必须在网页中显示 `需人工核验`。
 - 专业薪资适合做成悬浮信息：卡片上只显示简短月薪范围，鼠标悬浮或手机点击时显示应届生平均薪资、五年后薪资水平（模糊化描述，如“中等偏上”“高于行业平均”，不展示具体年薪数字）、来源、样本年份和风险说明。
 
@@ -79,7 +80,7 @@ Every final recommendation must include:
 - Data source log: source name, URL or publication, year, access date.
 - 冲刺/稳妥/保底 sections，每个 section 至少包含 3-5 所具体真实院校（不允许示例占位）。
 - School filters: 985/211/双一流/公办/民办, city, province, tuition, 校区/中外合作/单列代码.
-- For each school: 具体校名、reason, risk, recent admission score/rank, 录取位次/录取排名, 招生计划 if available, recommended majors, major restrictions.
+- For each school: 具体校名、reason, risk, recent admission score/rank, 录取位次/录取排名, **王牌专业**（标注⭐）, 招生计划 if available, recommended majors with per-major admission scores/ranks, major restrictions.
 - For each major: 专业红黄绿灯, fit reason, employment outlook, 应届生平均薪资, 五年后薪资水平（模糊化描述）, salary range, five-year range if sourced, ranking口径 if used, 本科就业/读研依赖/考公考编适配度.
 - **强取舍结论**:
   - 学校优先版: 为学校层次牺牲哪些专业/城市/风险.
@@ -99,7 +100,7 @@ Every final recommendation must include:
 - Filters must be functional: every card/table row needs `data-tier`, `data-school-type`, `data-city`, `data-tags`, `data-major-light`, and `data-strategy`; include an `applyFilters()` script wired with `addEventListener('change', applyFilters)`.
 - Use visible badges for 冲刺/稳妥/保底 and 绿灯/黄灯/红灯.
 - Add a top “实战派就业导向结论” panel: 普通家庭建议、最大坑点、最推荐组合、最不建议组合.
-- Include school 录取位次/录取排名, 应届生平均薪资, 五年后薪资水平, and professional salary hover/tap tooltip.
+- Include school 录取位次/录取排名, 应届生平均薪资, 五年后薪资水平, **王牌专业⭐标注**, per-major 录取最低分/位次, and professional salary hover/tap tooltip.
 - 手机浏览器必须适配: viewport, responsive grid, @media rules, 横向表格 overflow-x, 44px+ touch targets, readable font, no hover-only information without click/tap fallback.
 - Include a collapsible source panel and disclaimer.
 - Do not hide uncertain data; display `暂无权威来源，需核验`.
@@ -112,6 +113,7 @@ Every final recommendation must include:
 - Do not ask for 身份证号、准考证号、手机号、住址 or other unnecessary private data.
 - Do not scrape or copy paid third-party databases unless the user provides permission and lawful access.
 - Do not treat school最低投档线 as热门专业可录取线.
+- **不允许用学校投档分代替专业录取分**：每个推荐专业必须查询该专业在对应省份/年份的实际最低分和位次；若无法查到，标注“专业录取分需人工核验”，不得用学校最低分冒充专业分.
 - Do not recommend a high-risk “名校冷门专业” to a普通家庭 without explicitly explaining本科就业 and读研风险.
 - **不允许用“示例大学”或任何占位院校替代真实学校**：HTML 报告中每张学校卡片必须是具体真实院校，缺失数据需标注“需人工核验”，不能省略。
 

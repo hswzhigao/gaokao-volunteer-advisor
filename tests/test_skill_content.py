@@ -95,6 +95,29 @@ class SkillContentTests(unittest.TestCase):
         for term in required_terms:
             self.assertIn(term, skill + template)
 
+    def test_flagship_major_required(self):
+        """必须标注王牌专业⭐"""
+        skill = self.read("SKILL.md")
+        template = self.read("references/output-templates.md")
+        required_terms = ["王牌专业", "⭐", "is_flagship"]
+        for term in required_terms:
+            self.assertIn(term, skill + template)
+
+    def test_per_major_admission_scores_and_ranks(self):
+        """每个专业必须有独立的录取最低分和位次"""
+        skill = self.read("SKILL.md")
+        template = self.read("references/output-templates.md")
+        required_terms = ["专业录取分", "专业录取位次", "不允许用学校投档分", "专业录取最低分"]
+        for term in required_terms:
+            self.assertIn(term, skill + template)
+
+    def test_school_card_has_major_detail_table(self):
+        """学校卡片内必须有专业详情表格"""
+        template = self.read("references/output-templates.md")
+        required_terms = ["专业</th>", "录取位次</th>", "应届生月薪</th>", "五年后水平</th>"]
+        for term in required_terms:
+            self.assertIn(term, template)
+
 
 if __name__ == "__main__":
     unittest.main()

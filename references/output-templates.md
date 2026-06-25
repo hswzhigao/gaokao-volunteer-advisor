@@ -69,20 +69,29 @@
     "five_year_avg": "五年后薪资区间",
     "citation": "就业质量报告/招聘平台样本来源"
   },
+  "flagship_majors": ["王牌专业1", "王牌专业2"],
   "recommended_majors": [
     {
       "name": "专业名称",
+      "is_flagship": true,
       "traffic_light": "绿灯/黄灯/红灯",
       "fit_reason": "推荐原因",
       "employment_outlook": "就业前景",
       "undergraduate_employment": "本科就业说明",
       "postgraduate_dependency": "读研依赖",
       "civil_service_fit": "考公考编适配度",
-      "major_admission": {"score": "专业录取分", "rank": "专业录取位次/录取排名", "citation": "来源"},
+      "major_admission": {
+        "year": 2024,
+        "min_score": 0,
+        "min_rank": 0,
+        "admission_rank": "专业录取位次/录取排名",
+        "plan_count": 0,
+        "citation": "来源"
+      },
       "salary": {
-        "fresh_graduate_avg": "应届生平均薪资",
-        "five_year_avg": "五年后薪资",
-        "range": "页面默认展示的简短薪资范围",
+        "fresh_graduate_avg": "应届生平均月薪",
+        "five_year_level": "五年后薪资水平（模糊描述）",
+        "range": "页面默认展示的简短月薪范围",
         "citation": "来源和样本口径"
       },
       "admission_risk": "专业录取风险"
@@ -94,9 +103,11 @@
 
 ## 专业红黄绿灯展示
 
-| 专业 | 灯号 | 专业录取位次 | 本科就业 | 应届生平均薪资 | 五年后薪资水平 | 普通家庭建议 |
-|---|---|---:|---|---|---|---|
-| 示例专业 | 绿灯 | 18000 | 路径清晰 | 8k-12k/月 | 中等偏上 | 可优先考虑 |
+每张学校卡片内必须展示推荐专业的详细信息，包括：专业录取最低分/位次、王牌专业标注、专业应届生薪资。
+
+| 专业 | 王牌 | 灯号 | 最低分 | 专业录取位次 | 本科就业 | 应届生月薪 | 五年后薪资水平 | 普通家庭建议 |
+|---|---|---:|---|---|---|---|---|---|---|
+| 示例专业 | ⭐ | 绿灯 | 615 | 15000 | 路径清晰 | 10k-14k/月 | 中等偏上 | 可优先考虑 |
 
 专业薪资在网页中用悬浮/点击 tooltip 展示：卡片上显示简短月薪范围，`data-salary-tooltip` 中放应届生平均薪资、五年后薪资水平（模糊化描述，不展示具体年薪数字）、来源、年份、样本口径。
 
@@ -129,6 +140,10 @@
     .salary-tooltip{position:relative;cursor:pointer;text-decoration:underline dotted;text-underline-offset:3px}
     .salary-tooltip:hover::after,.salary-tooltip:focus::after{content:attr(data-salary-tooltip);position:absolute;left:0;top:125%;z-index:20;width:min(320px,80vw);white-space:pre-line;background:#0f172a;color:white;border-radius:12px;padding:10px;box-shadow:0 12px 24px rgba(15,23,42,.24);font-size:13px;text-decoration:none}
     .hidden{display:none!important}
+    .admission-line{display:flex;flex-wrap:wrap;gap:8px 16px;margin:10px 0;font-size:15px}
+    .stat{white-space:nowrap}
+    .school-salary-line{display:flex;flex-wrap:wrap;gap:8px 16px;margin:8px 0;font-size:14px;color:#334155}
+    .flagship-star{color:#f59e0b}
     @media (max-width: 768px){
       header{padding:24px 16px}main{padding:14px}.grid{grid-template-columns:1fr}.filters{grid-template-columns:1fr}.card{padding:14px;border-radius:14px}h1{font-size:24px}h2{font-size:20px}.badge{font-size:12px}table{font-size:14px}
     }
@@ -151,10 +166,29 @@
   <section class="grid" id="schoolGrid">
     <article class="card school-card" data-tier="稳妥" data-school-type="211 公办" data-city="南京" data-tags="211 公办 双一流" data-major-light="绿灯" data-strategy="就业优先版 专业优先版">
       <h2>示例大学 <span class="badge safe">稳妥</span></h2>
-      <p>最低分：610；录取位次/录取排名：18000；招生计划：120人</p>
-      <p>应届生平均薪资：<span class="salary-tooltip" tabindex="0" data-salary-tooltip="应届生平均薪资：8k-12k/月\A五年后薪资水平：中等偏上（行业参考）\A来源：就业质量报告/招聘平台样本\A说明：薪资受城市、行业和个人能力影响，年收入不单独展示">8k-12k/月</span></p>
-      <p>五年后薪资水平：中等偏上</p>
-      <p class="source">数据状态：需人工核验；来源：示例</p>
+      <div class="admission-line">
+        <span class="stat">🎯 最低分：610</span>
+        <span class="stat">📍 录取位次/排名：18000</span>
+        <span class="stat">📋 招生计划：120人</span>
+      </div>
+      <div class="school-salary-line">
+        <span>💰 应届生平均薪资：<span class="salary-tooltip" tabindex="0" data-salary-tooltip="应届生平均薪资：8k-12k/月\A五年后薪资水平：中等偏上（行业参考）\A来源：就业质量报告/招聘平台样本\A说明：薪资受城市、行业和个人能力影响，年收入不单独展示">8k-12k/月</span></span>
+        <span>📈 五年后薪资水平：中等偏上</span>
+      </div>
+      <div class="major-table-wrap" style="overflow-x:auto;margin-top:12px">
+        <table style="min-width:600px;font-size:14px">
+          <thead><tr><th>专业</th><th>王牌</th><th>灯号</th><th>最低分</th><th>录取位次</th><th>应届生月薪</th><th>五年后水平</th><th>建议</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>通信工程</td><td>⭐</td><td><span class="badge green">绿灯</span></td><td>615</td><td>15000</td><td><span class="salary-tooltip" tabindex="0" data-salary-tooltip="应届生平均薪资：10k-14k/月\A五年后薪资水平：中等偏上\A来源：就业质量报告（2024届）\A说明：薪资受城市、行业和个人能力影响">10k-14k/月</span></td><td>中等偏上</td><td>可优先考虑</td>
+            </tr>
+            <tr>
+              <td>计算机科学与技术</td><td>⭐</td><td><span class="badge green">绿灯</span></td><td>620</td><td>13500</td><td><span class="salary-tooltip" tabindex="0" data-salary-tooltip="应届生平均薪资：12k-16k/月\A五年后薪资水平：中等偏上\A来源：招聘平台样本（2024届）\A说明：城市和行业差异较大">12k-16k/月</span></td><td>中等偏上</td><td>可优先考虑</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="source" style="margin-top:8px">数据状态：需人工核验；来源：示例</p>
     </article>
   </section>
 

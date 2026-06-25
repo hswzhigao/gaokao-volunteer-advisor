@@ -59,7 +59,7 @@ For every candidate, explicitly decide which strategy fits:
    - 红灯: 对普通家庭本科就业不友好、读研依赖高、行业周期弱、专业调剂或冷门风险大.
 9. Recommend majors only when the school offers them in that province/year or the latest plan supports them.
 10. For employment and salary, use sourced ranges with source and caveats; every school card must show 应届生平均薪资 and 五年后薪资水平 when a credible source exists, otherwise show `暂无权威薪资数据，需人工核验`. 年收入/年薪在页面中不展示具体数字，使用模糊化描述。
-11. Generate a webpage report when requested using `references/output-templates.md`; filters must be backed by real JavaScript, not static controls.
+11. **最终必须交付 HTML 网页报告**：志愿分析结束后，不要停留在纯文本；必须输出一份完整的静态 HTML 文件，包含具体学校列表、筛选功能、手机适配。
 12. Run `scripts/citation_check.py` on structured report data before final output if possible.
 
 ## Mandatory ranking and salary fields
@@ -77,9 +77,9 @@ Every final recommendation must include:
 - Candidate profile and assumptions.
 - 家庭画像: 家庭预算、是否支持读研、是否急需本科就业、城市/学费/就业限制.
 - Data source log: source name, URL or publication, year, access date.
-- 冲刺/稳妥/保底 sections.
+- 冲刺/稳妥/保底 sections，每个 section 至少包含 3-5 所具体真实院校（不允许示例占位）。
 - School filters: 985/211/双一流/公办/民办, city, province, tuition, 校区/中外合作/单列代码.
-- For each school: reason, risk, recent admission score/rank, 录取位次/录取排名, 招生计划 if available, recommended majors, major restrictions.
+- For each school: 具体校名、reason, risk, recent admission score/rank, 录取位次/录取排名, 招生计划 if available, recommended majors, major restrictions.
 - For each major: 专业红黄绿灯, fit reason, employment outlook, 应届生平均薪资, 五年后薪资水平（模糊化描述）, salary range, five-year range if sourced, ranking口径 if used, 本科就业/读研依赖/考公考编适配度.
 - **强取舍结论**:
   - 学校优先版: 为学校层次牺牲哪些专业/城市/风险.
@@ -88,11 +88,12 @@ Every final recommendation must include:
   - 最不建议方案: 明确指出原因，如名校冷门、调剂风险、学费过高、就业路径不清.
 - A clear disclaimer: 信息整理和决策辅助，不保证录取；最终以省考试院、招生计划书和高校招生章程为准。
 
-## HTML/web report
+## HTML/web report（最终必需交付格式）
 
-When asked to make a webpage:
+**硬性要求：最终输出必须是 HTML 网页，不允许只给纯文本表格或 Markdown。**
 
-- Produce a static HTML file unless the user requests a full app.
+- 生成静态 HTML 文件，包含具体真实学校（不允许用“示例大学”占位替代真实院校）。
+- 每所学校卡片必须是具体院校（如“南京邮电大学”），附带真实录取位次、专业、薪资数据。
 - Mark data status for each row: `官方已核验`, `第三方参考`, or `需人工核验`.
 - Include filters for tier, school type, city/province, 985/211, risk level, 专业红黄绿灯, and strategy.
 - Filters must be functional: every card/table row needs `data-tier`, `data-school-type`, `data-city`, `data-tags`, `data-major-light`, and `data-strategy`; include an `applyFilters()` script wired with `addEventListener('change', applyFilters)`.
@@ -112,6 +113,7 @@ When asked to make a webpage:
 - Do not scrape or copy paid third-party databases unless the user provides permission and lawful access.
 - Do not treat school最低投档线 as热门专业可录取线.
 - Do not recommend a high-risk “名校冷门专业” to a普通家庭 without explicitly explaining本科就业 and读研风险.
+- **不允许用“示例大学”或任何占位院校替代真实学校**：HTML 报告中每张学校卡片必须是具体真实院校，缺失数据需标注“需人工核验”，不能省略。
 
 ## Quick commands
 

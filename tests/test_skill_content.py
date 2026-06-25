@@ -79,6 +79,22 @@ class SkillContentTests(unittest.TestCase):
         combined = skill + template + workflow + guide
         self.assertNotIn("张雪峰", combined)
 
+    def test_html_is_mandatory_final_output(self):
+        """最终必须交付 HTML 网页，不允许只给纯文本"""
+        skill = self.read("SKILL.md")
+        workflow = self.read("references/workflow.md")
+        required_terms = ["最终必须交付 HTML", "最终必需交付", "不允许只输出纯文本"]
+        for term in required_terms:
+            self.assertIn(term, skill + workflow)
+
+    def test_schools_must_be_real_not_placeholder(self):
+        """不允许用示例大学占位，HTML 中必须是具体真实院校"""
+        skill = self.read("SKILL.md")
+        template = self.read("references/output-templates.md")
+        required_terms = ["具体真实院校", "不允许用", "占位", "真实院校"]
+        for term in required_terms:
+            self.assertIn(term, skill + template)
+
 
 if __name__ == "__main__":
     unittest.main()

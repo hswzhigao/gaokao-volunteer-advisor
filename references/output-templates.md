@@ -18,7 +18,7 @@
 - 是否接受异地就业：
 - 考公考编/体制内倾向：
 
-## 张雪峰式就业导向结论
+## 实战派就业导向结论
 - 普通家庭建议：
 - 最大坑点：
 - 最推荐组合：
@@ -42,7 +42,7 @@
 
 ## 学校卡片字段
 
-每所学校必须有录取位次/录取排名。不能只有分数范围；若来源只给分数，显示“需补充录取排名/位次”。薪资必须区分应届生平均薪资和五年后薪资，且注明来源；没有来源时显示“暂无权威薪资数据，需人工核验”。
+每所学校必须有录取位次/录取排名。不能只有分数范围；若来源只给分数，显示“需补充录取排名/位次”。薪资必须区分应届生平均薪资和五年后薪资水平，且注明来源；没有来源时显示“暂无权威薪资数据，需人工核验”。**年收入/年薪在页面中不展示具体数字，使用模糊化描述（如“中等偏上”“高于行业平均”等）。**
 
 ```json
 {
@@ -94,11 +94,11 @@
 
 ## 专业红黄绿灯展示
 
-| 专业 | 灯号 | 专业录取位次 | 本科就业 | 应届生平均薪资 | 五年后薪资 | 普通家庭建议 |
+| 专业 | 灯号 | 专业录取位次 | 本科就业 | 应届生平均薪资 | 五年后薪资水平 | 普通家庭建议 |
 |---|---|---:|---|---|---|---|
-| 示例专业 | 绿灯 | 18000 | 路径清晰 | 8k-12k/月 | 20w-35w/年 | 可优先考虑 |
+| 示例专业 | 绿灯 | 18000 | 路径清晰 | 8k-12k/月 | 中等偏上 | 可优先考虑 |
 
-专业薪资在网页中用悬浮/点击 tooltip 展示：卡片上显示简短范围，`data-salary-tooltip` 中放应届生平均薪资、五年后薪资、来源、年份、样本口径。
+专业薪资在网页中用悬浮/点击 tooltip 展示：卡片上显示简短月薪范围，`data-salary-tooltip` 中放应届生平均薪资、五年后薪资水平（模糊化描述，不展示具体年薪数字）、来源、年份、样本口径。
 
 ## HTML 骨架
 
@@ -137,7 +137,7 @@
 <main>
   <section class="warn">本报告仅供决策辅助，不保证录取。未核验数据必须标注“需人工核验”。</section>
 
-  <section class="card"><h2>张雪峰式就业导向结论</h2><!-- 家庭画像 + 强取舍结论 --></section>
+  <section class="card"><h2>实战派就业导向结论</h2><!-- 家庭画像 + 强取舍结论 --></section>
 
   <section class="filters" aria-label="筛选条件">
     <select id="tierFilter"><option value="">全部层级</option><option value="冲刺">冲刺</option><option value="稳妥">稳妥</option><option value="保底">保底</option></select>
@@ -150,8 +150,8 @@
     <article class="card school-card" data-tier="稳妥" data-school-type="211 公办" data-city="南京" data-tags="211 公办 双一流" data-major-light="绿灯" data-strategy="就业优先版 专业优先版">
       <h2>示例大学 <span class="badge safe">稳妥</span></h2>
       <p>最低分：610；录取位次/录取排名：18000；招生计划：120人</p>
-      <p>应届生平均薪资：<span class="salary-tooltip" tabindex="0" data-salary-tooltip="应届生平均薪资：8k-12k/月\A五年后薪资：20w-35w/年\A来源：就业质量报告/招聘平台样本\A说明：薪资受城市、行业和个人能力影响">8k-12k/月</span></p>
-      <p>五年后薪资：20w-35w/年</p>
+      <p>应届生平均薪资：<span class="salary-tooltip" tabindex="0" data-salary-tooltip="应届生平均薪资：8k-12k/月\A五年后薪资水平：中等偏上（行业参考）\A来源：就业质量报告/招聘平台样本\A说明：薪资受城市、行业和个人能力影响，年收入不单独展示">8k-12k/月</span></p>
+      <p>五年后薪资水平：中等偏上</p>
       <p class="source">数据状态：需人工核验；来源：示例</p>
     </article>
   </section>
@@ -185,4 +185,4 @@
 1. 筛选功能必须生效：不要只画 select；必须包含 `applyFilters()`、`cards.forEach`、`addEventListener('change', applyFilters)` 和每张卡片的 data 属性。
 2. 手机浏览器必须适配：`viewport`、`@media (max-width: 768px)`、`.grid{grid-template-columns:1fr}`、表格 `overflow-x:auto`、控件 `min-height:44px`、`touch-action:manipulation`。
 3. 薪资 tooltip 不能只依赖桌面 hover；`salary-tooltip` 必须有 `tabindex="0"` 或点击/聚焦 fallback，手机点击也能看到。
-4. 学校卡片必须展示录取位次/录取排名、应届生平均薪资、五年后薪资；缺数据时显示“需人工核验”，不能省略。
+4. 学校卡片必须展示录取位次/录取排名、应届生平均薪资、五年后薪资水平（模糊化描述，不展示具体年薪）；缺数据时显示“需人工核验”，不能省略。

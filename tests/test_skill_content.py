@@ -28,7 +28,7 @@ class SkillContentTests(unittest.TestCase):
 
     def test_major_guide_contains_traffic_light_criteria(self):
         guide = self.read("references/major-research-guide.md")
-        required_terms = ["专业红黄绿灯", "绿灯专业", "黄灯专业", "红灯风险", "普通家庭提示", "张雪峰式"]
+        required_terms = ["专业红黄绿灯", "绿灯专业", "黄灯专业", "红灯风险", "普通家庭提示", "实战派"]
         for term in required_terms:
             self.assertIn(term, guide)
 
@@ -61,6 +61,23 @@ class SkillContentTests(unittest.TestCase):
         required_terms = ["data-salary-tooltip", "salary-tooltip", "应届生平均薪资", "五年后薪资", "悬浮"]
         for term in required_terms:
             self.assertIn(term, template)
+
+    def test_vague_annual_salary_no_exact_figures(self):
+        """年收入/年薪在页面模板中不展示具体数字，使用模糊化描述"""
+        template = self.read("references/output-templates.md")
+        skill = self.read("SKILL.md")
+        vague_terms = ["不展示具体年薪", "模糊化描述", "中等偏上"]
+        for term in vague_terms:
+            self.assertIn(term, template + skill)
+
+    def test_no_zhangxuefeng_reference(self):
+        """整个 skill 不再包含张雪峰字样"""
+        skill = self.read("SKILL.md")
+        template = self.read("references/output-templates.md")
+        workflow = self.read("references/workflow.md")
+        guide = self.read("references/major-research-guide.md")
+        combined = skill + template + workflow + guide
+        self.assertNotIn("张雪峰", combined)
 
 
 if __name__ == "__main__":

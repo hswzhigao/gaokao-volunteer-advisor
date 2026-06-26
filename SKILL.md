@@ -41,6 +41,43 @@ For every candidate, explicitly decide which strategy fits:
 | 学校层次优先 | 家庭能承受专业不理想和转专业/读研风险 | 可以冲 985/211，但必须说明冷门专业和调剂风险 |
 | 城市就业优先 | 明确想留某城市就业 | 优先城市产业、实习机会、校招半径和本地认可度 |
 
+## Province mode routing
+
+Before building a school table, determine the candidate's province admission mode:
+
+- **专业组模式**: 上海 and any province/year that uses 院校专业组. Use the 专业组 workflow below.
+- **院校+专业模式**: traditional province/batch school lines plus major admission data. Do not create 专业组 tables.
+- **New college entrance exam without school groups**: use the province's actual published unit (院校、专业、专业类、专业+院校等) and label it exactly.
+
+If unsure which mode applies for that province/year, verify the provincial exam authority policy first. Do not apply 上海专业组 assumptions to other provinces.
+
+## 专业组 workflow
+
+When the candidate's province/year uses 院校专业组, treat the **专业组** as a separate decision layer:
+
+- Do not treat a 专业组代码 as a 专业名称.
+- Show `院校专业组投档线` separately from `专业录取线`.
+- Add a `组内专业` or `2025组内专业` column. If the official 专业目录/招生计划 is not available, write `需按招生专业目录核验`; do not fill it with guessed majors.
+- For candidates who prefer 不服从调剂, every group must show whether the group contains unacceptable majors. If unknown, mark `调剂风险需人工核验`.
+- Use the candidate province's current-year 一分一段 table for candidate rank and recent same-province/same-mode 投档线 for group-level matching. Use prior-year 一分一段 only to convert prior-year group scores into reference ranks, and mark that conversion as reference.
+- If the family expects 上海就业, every recommended major must explain its Shanghai employment出口 and what graduates actually do day to day.
+
+Suggested candidate pool sizing for family discussion:
+
+- Use a larger 冲刺 pool when the family wants to compare 985/211 tradeoffs; 8-12 schools is reasonable.
+- Use 5-9 稳妥 schools as the main decision battlefield.
+- Keep 保底 narrow, usually 3-5 schools, and only include schools/majors the family can actually accept.
+
+## Big-company hiring lens
+
+For candidates asking about 大厂/上海就业, add an explicit hiring logic module:
+
+- 大厂校招 is not simply `985 > 211`; it combines school tier, major fit, internship/project evidence, technical tests, city opportunity, and graduate-school plan.
+- R&D/technical roles fit best with 计算机、软件、电子信息、自动化、电气、数据科学.
+- Business/strategy/product paths can fit 统计、金融科技、数字媒体、供应链、物流科技, but must show the data/tech bridge.
+- Pure language, public administration, broad management, and some cold basic/agri/bio/material directions require extra caution unless the student has a clear graduate-study or industry plan.
+- Explain each major in family-readable terms: `毕业后做什么`, not only job titles.
+
 ## Workflow
 
 1. Read `references/workflow.md` for the full consulting flow.
@@ -59,13 +96,15 @@ For every candidate, explicitly decide which strategy fits:
    - 红灯: 对普通家庭本科就业不友好、读研依赖高、行业周期弱、专业调剂或冷门风险大.
 9. Recommend majors only when the school offers them in that province/year or the latest plan supports them.
 10. For employment and salary, use sourced ranges with source and caveats; every school card must show 应届生平均薪资 and 五年后薪资水平 when a credible source exists, otherwise show `暂无权威薪资数据，需人工核验`. 年收入/年薪在页面中不展示具体数字，使用模糊化描述。
-11. **最终必须交付 HTML 网页报告**：志愿分析结束后，不要停留在纯文本；必须输出一份完整的静态 HTML 文件，包含具体学校列表、筛选功能、手机适配。
-12. Run `scripts/citation_check.py` on structured report data before final output if possible.
+11. For 上海/专业组 reports, add separate group tables: `专业组代码`, `院校专业组`, `组内专业`, `最低分`, `参考位次`, `批次/类型`, `数据状态`.
+12. **最终必须交付 HTML 网页报告**：志愿分析结束后，不要停留在纯文本；必须输出一份完整的静态 HTML 文件，包含具体学校列表、筛选功能、手机适配。
+13. Run `scripts/citation_check.py` on structured report data before final output if possible.
 
 ## Mandatory ranking and salary fields
 
 - 每所学校必须展示近年录取最低分和最低位次/录取排名，不能只有分数范围；若只有分数没有排名，标记 `需补充录取排名/位次`，不得用分数替代位次判断。
 - 每所学校至少展示：年份、最低分、最低位次/录取排名、招生计划数、**王牌专业**（校内学科评估高、就业强势、行业认可度高的专业，用 ⭐ 标注）、数据来源、数据状态。
+- 专业组省份必须展示：专业组代码、院校专业组名称、组内专业、专业组最低分、专业组参考位次、批次/类型、数据状态。`组内专业`不能凭猜测填写；缺官方目录时写 `需按招生专业目录核验`.
 - 每个推荐专业必须尽量展示：**该专业往年最低分、专业录取位次/录取排名**（不能只用学校投档线代替专业录取分）、应届生平均月薪、五年后薪资水平、薪资来源和样本口径。
 - 每张学校卡片内的专业列表用表格展示，列包含：专业名、是否王牌（⭐）、红黄绿灯、最低分、录取位次、应届生月薪、五年后薪资水平、普通家庭建议。
 - 如果只有分数范围、没有录取位次/录取排名、没有应届生平均薪资或五年后薪资水平，不要包装成完整方案；必须在网页中显示 `需人工核验`。
@@ -81,7 +120,9 @@ Every final recommendation must include:
 - 冲刺/稳妥/保底 sections，每个 section 至少包含 3-5 所具体真实院校（不允许示例占位）。
 - School filters: 985/211/双一流/公办/民办, city, province, tuition, 校区/中外合作/单列代码.
 - For each school: 具体校名、reason, risk, recent admission score/rank, 录取位次/录取排名, **王牌专业**（标注⭐）, 招生计划 if available, recommended majors with per-major admission scores/ranks, major restrictions.
+- For 上海/专业组 provinces: 专业组代码、院校专业组、组内专业、去年投档最低分、参考位次、组内不可接受专业/调剂风险.
 - For each major: 专业红黄绿灯, fit reason, employment outlook, 应届生平均薪资, 五年后薪资水平（模糊化描述）, salary range, five-year range if sourced, ranking口径 if used, 本科就业/读研依赖/考公考编适配度.
+- If the career city is 上海 or the user asks about 大厂, include a 大厂招聘逻辑 section and each major's 上海就业出口 + `毕业后做什么`.
 - **强取舍结论**:
   - 学校优先版: 为学校层次牺牲哪些专业/城市/风险.
   - 专业优先版: 为专业质量降低哪些学校层级/城市.
@@ -100,8 +141,11 @@ Every final recommendation must include:
 - Filters must be functional: every card/table row needs `data-tier`, `data-school-type`, `data-city`, `data-tags`, `data-major-light`, and `data-strategy`; include an `applyFilters()` script wired with `addEventListener('change', applyFilters)`.
 - Use visible badges for 冲刺/稳妥/保底 and 绿灯/黄灯/红灯.
 - Add a top “实战派就业导向结论” panel: 普通家庭建议、最大坑点、最推荐组合、最不建议组合.
+- For 上海 reports, every school card should include a group table before the major table. Do not hide unknown group majors; display `需按招生专业目录核验`.
+- Add a visible 大厂/上海就业 module when relevant: 校招筛选逻辑, role fit, internship/project importance, school-tier caveat, graduate-study effect.
 - Include school 录取位次/录取排名, 应届生平均薪资, 五年后薪资水平, **王牌专业⭐标注**, per-major 录取最低分/位次, and professional salary hover/tap tooltip.
-- 手机浏览器必须适配: viewport, responsive grid, @media rules, 横向表格 overflow-x, 44px+ touch targets, readable font, no hover-only information without click/tap fallback.
+- 手机浏览器必须适配: viewport, responsive grid, @media rules, 44px+ touch targets, readable font, no hover-only information without click/tap fallback. For dense tables, prefer mobile card-style rows with labels (not only horizontal scrolling).
+- Visual style should be bright and readable for family discussion; avoid dark-heavy backgrounds unless requested.
 - Include a collapsible source panel and disclaimer.
 - Do not hide uncertain data; display `暂无权威来源，需核验`.
 
@@ -113,6 +157,8 @@ Every final recommendation must include:
 - Do not ask for 身份证号、准考证号、手机号、住址 or other unnecessary private data.
 - Do not scrape or copy paid third-party databases unless the user provides permission and lawful access.
 - Do not treat school最低投档线 as热门专业可录取线.
+- Do not treat 院校专业组投档线 as 组内热门专业录取线.
+- Do not fill `组内专业` with recommended majors unless the official 专业目录/招生计划 confirms those majors are inside that exact group.
 - **不允许用学校投档分代替专业录取分**：每个推荐专业必须查询该专业在对应省份/年份的实际最低分和位次；若无法查到，标注“专业录取分需人工核验”，不得用学校最低分冒充专业分.
 - Do not recommend a high-risk “名校冷门专业” to a普通家庭 without explicitly explaining本科就业 and读研风险.
 - **不允许用“示例大学”或任何占位院校替代真实学校**：HTML 报告中每张学校卡片必须是具体真实院校，缺失数据需标注“需人工核验”，不能省略。

@@ -135,6 +135,22 @@ class SkillContentTests(unittest.TestCase):
         for term in required_terms:
             self.assertIn(term, combined)
 
+    def test_skill_requires_three_layer_salary_evidence(self):
+        """薪资展示必须区分官方、专业大盘、上海岗位样本"""
+        skill = self.read("SKILL.md")
+        data_sources = self.read("references/data-sources.md")
+        guide = self.read("references/major-research-guide.md")
+        combined = skill + data_sources + guide
+        required_terms = [
+            "三层薪资口径",
+            "学校官方就业质量报告",
+            "专业全国参考",
+            "上海岗位样本",
+            "不能混写成单一平均薪资",
+        ]
+        for term in required_terms:
+            self.assertIn(term, combined)
+
 
 if __name__ == "__main__":
     unittest.main()

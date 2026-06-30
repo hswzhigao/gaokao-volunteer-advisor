@@ -112,6 +112,62 @@ class ScriptTests(unittest.TestCase):
         finally:
             payload.unlink(missing_ok=True)
 
+    def test_fetch_gaokao_scores_builds_special_score_body(self):
+        module = load_module("fetch_gaokao_scores", SCRIPTS / "fetch_gaokao_scores.py")
+        body = module.build_score_body("v1/school/special_score", school_id=73, local_province_id=31, year=2025, page=1, size=20)
+        self.assertEqual(body["uri"], "v1/school/special_score")
+        self.assertEqual(body["school_id"], 73)
+        self.assertEqual(body["local_province_id"], 31)
+        self.assertEqual(body["year"], 2025)
+        self.assertEqual(body["page"], 1)
+        self.assertEqual(body["size"], 20)
+        self.assertEqual(body["autosign"], "")
+
+    def test_fetch_gaokao_scores_normalizes_major_score_rows(self):
+        module = load_module("fetch_gaokao_scores", SCRIPTS / "fetch_gaokao_scores.py")
+        payload = {
+            "code": 0,
+            "data": {
+                "item": [
+                    {
+                        "sp_name": "计算机科学与技术",
+                        "remark": "含卓越班",
+                        "min": "575",
+                        "min_section": "5123",
+                        "average": "578",
+                        "sg_name": "（01）",
+                        "sg_info": "物理+化学",
+                        "local_batch_name": "本科批",
+                        "zslx_name": "普通类",
+                        "lq_num": "3",
+                        "school_special_id": 12345,
+                    }
+                ]
+            },
+        }
+        rows = module.normalize_special_scores(payload, school_name="同济大学", school_id=73, province="上海", year=2025)
+        self.assertEqual(rows, [
+            {
+                "school_name": "同济大学",
+                "school_id": 73,
+                "province": "上海",
+                "year": 2025,
+                "major_name": "计算机科学与技术",
+                "remark": "含卓越班",
+                "min_score": 575,
+                "min_rank": 5123,
+                "average_score": 578,
+                "group_name": "（01）",
+                "subject_requirement": "物理+化学",
+                "batch": "本科批",
+                "admission_type": "普通类",
+                "admission_count": "3",
+                "school_special_id": 12345,
+                "source": "阳光高考/掌上高考公开接口 v1/school/special_score",
+                "data_status": "第三方参考，需与省考试院/高校招生网复核",
+            }
+        ])
+
 
 if __name__ == "__main__":
     unittest.main()

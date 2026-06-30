@@ -8,6 +8,19 @@
 4. 高校就业质量报告：就业去向、行业、薪资口径（如有）。
 5. 教育部学科评估、双一流名单、软科等榜单：必须说明排名口径。
 
+## 专业录取分补充接口
+
+当省考试院或高校招生网没有直接整理成可检索页面时，使用 `scripts/fetch_gaokao_scores.py` 查询阳光高考/掌上高考公开接口：
+
+```bash
+python3 scripts/fetch_gaokao_scores.py --school-name 同济大学 --school-province 上海 --province 上海 --year 2025 --major-keyword 计算机
+```
+
+- 专业级接口是 `v1/school/special_score`，可补充 `专业最低录取分` 和 `专业最低录取位次`。
+- 分数接口必须使用 `local_province_id` 表示生源省份。
+- 该接口结果在报告中标为 `第三方参考`，最终仍需省考试院、高校招生网或正式招生资料复核。
+- 详细参数和字段见 `references/chsi-eol-score-api.md`。
+
 ## 搜索关键词模板
 
 - `{省份} {年份} 一分一段表 {科类}`

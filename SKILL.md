@@ -82,9 +82,12 @@ For candidates asking about 大厂/上海就业, add an explicit hiring logic mo
 
 1. Read `references/workflow.md` for the full consulting flow.
 2. Read `references/data-sources.md` before searching or citing data.
+   - When major-level admission scores/ranks are needed, also read `references/chsi-eol-score-api.md` and run `scripts/fetch_gaokao_scores.py` before marking a major as unavailable.
 3. Read `references/compliance.md` before giving final advice.
 4. Read `references/major-research-guide.md` before recommending majors.
 5. Search and verify data by `省份 + 年份 + 批次/专业组 + 院校 + 专业`.
+   - For professional admission data, use `python3 scripts/fetch_gaokao_scores.py --school-name <院校> --school-province <院校所在地> --province <生源省份> --year <年份>` to query `v1/school/special_score`.
+   - Use returned `专业最低录取分` and `专业最低录取位次` only as `第三方参考` unless cross-checked with provincial or university official sources.
 6. Build a candidate table with source, year, min score, min rank, plan count, restrictions, and notes.
 7. Classify by rank gap:
    - 冲刺: historical lowest rank is meaningfully better than the candidate rank, or热门专业位次明显更高.
@@ -106,6 +109,7 @@ For candidates asking about 大厂/上海就业, add an explicit hiring logic mo
 - 每所学校至少展示：年份、最低分、最低位次/录取排名、招生计划数、**王牌专业**（校内学科评估高、就业强势、行业认可度高的专业，用 ⭐ 标注）、数据来源、数据状态。
 - 专业组省份必须展示：专业组代码、院校专业组名称、组内专业、专业组最低分、专业组参考位次、批次/类型、数据状态。`组内专业`不能凭猜测填写；缺官方目录时写 `需按招生专业目录核验`.
 - 每个推荐专业必须尽量展示：**该专业往年最低分、专业录取位次/录取排名**（不能只用学校投档线代替专业录取分）、应届生平均月薪、五年后薪资水平、薪资来源和样本口径。
+- 不要在运行 `scripts/fetch_gaokao_scores.py` 或完成同等来源查询之前宣称“查不到专业录取分/位次”。脚本可从阳光高考/掌上高考公开接口 `v1/school/special_score` 补充专业级数据；查得后标记 `第三方参考`，查不到再标记 `专业录取分需人工核验`。
 - 每张学校卡片内的专业列表用表格展示，列包含：专业名、是否王牌（⭐）、红黄绿灯、最低分、录取位次、应届生月薪、五年后薪资水平、普通家庭建议。
 - 如果只有分数范围、没有录取位次/录取排名、没有应届生平均薪资或五年后薪资水平，不要包装成完整方案；必须在网页中显示 `需人工核验`。
 - 专业薪资适合做成悬浮信息：卡片上只显示简短月薪范围，鼠标悬浮或手机点击时显示应届生平均薪资、五年后薪资水平（模糊化描述，如“中等偏上”“高于行业平均”，不展示具体年薪数字）、来源、样本年份和风险说明。

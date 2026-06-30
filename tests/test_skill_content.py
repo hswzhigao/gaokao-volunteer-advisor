@@ -118,6 +118,23 @@ class SkillContentTests(unittest.TestCase):
         for term in required_terms:
             self.assertIn(term, template)
 
+    def test_skill_documents_gaokao_special_score_lookup(self):
+        """专业级录取分可用阳光高考/掌上高考公开接口补充"""
+        skill = self.read("SKILL.md")
+        data_sources = self.read("references/data-sources.md")
+        api_reference = self.read("references/chsi-eol-score-api.md")
+        combined = skill + data_sources + api_reference
+        required_terms = [
+            "scripts/fetch_gaokao_scores.py",
+            "v1/school/special_score",
+            "local_province_id",
+            "专业最低录取分",
+            "专业最低录取位次",
+            "第三方参考",
+        ]
+        for term in required_terms:
+            self.assertIn(term, combined)
+
 
 if __name__ == "__main__":
     unittest.main()
